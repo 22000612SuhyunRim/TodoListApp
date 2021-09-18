@@ -62,7 +62,7 @@ public class TodoMain {
 				break;
 
 			default:
-				System.out.println("please enter one of the above mentioned command");
+				System.out.println("메뉴 사용법에 적힌 명령어를 참고해서 다시 입력해 주세요. [help]");
 				break;
 			}
 			

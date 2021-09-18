@@ -3,7 +3,7 @@ public class Menu {
 
     public static void displaymenu()
     {
-        System.out.println();
+        System.out.println("===================================");
         System.out.println("<메뉴 사용법>");
         System.out.println("1. 아이템 추가 [add]");
         System.out.println("2. 아이템 삭제 [del]");
@@ -13,9 +13,10 @@ public class Menu {
         System.out.println("6. 아이템 이름역순으로 정렬 [ls_name_desc]");
         System.out.println("7. 아이템 시간순으로 정렬 [ls_date]");
         System.out.println("8. 나가기 [exit]");
+        System.out.println("===================================");
     }
     
     public static void prompt() {
-    	System.out.println("\nEnter a command > ");
+    	System.out.println("\n사용하실 명령어를 입력해 주세요. > ");
     }
 }
