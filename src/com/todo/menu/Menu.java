@@ -13,7 +13,6 @@ public class Menu {
         System.out.println("6. 아이템 이름역순으로 정렬 [ls_name_desc]");
         System.out.println("7. 아이템 시간순으로 정렬 [ls_date]");
         System.out.println("8. 나가기 [exit]");
-        System.out.println("\nEnter a command > ");
     }
     
     public static void prompt() {
