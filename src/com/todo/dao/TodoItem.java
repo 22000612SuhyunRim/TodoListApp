@@ -44,5 +44,9 @@ public class TodoItem {
 	public String toString() {
 		return "[" + title + "] " + desc + " --- " + current_date;
 	}
+	
+	public String toSaveString() {
+		return title + "##" + desc + "##" + current_date + "\n";
+	}
     
 }
