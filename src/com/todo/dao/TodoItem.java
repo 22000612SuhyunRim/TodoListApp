@@ -9,11 +9,14 @@ public class TodoItem {
     private String current_date;
 
 
-    public TodoItem(String title, String desc){
-        this.title=title;
-        this.desc=desc;
-        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
-        this.current_date = f.format(new Date());
+    public TodoItem(String title, String desc, String current_date){
+        this.title = title;
+        this.desc = desc;
+        if(current_date == null) {
+	        SimpleDateFormat f = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+	        this.current_date = f.format(new Date());
+        }
+        else this.current_date = current_date;
     }
     
     public String getTitle() {

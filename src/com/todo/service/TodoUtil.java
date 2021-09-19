@@ -1,6 +1,13 @@
 package com.todo.service;
 
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import com.todo.dao.TodoItem;
 import com.todo.dao.TodoList;
@@ -24,7 +31,7 @@ public class TodoUtil {
 		sc.nextLine();
 		desc = sc.nextLine();
 		
-		TodoItem t = new TodoItem(title, desc);
+		TodoItem t = new TodoItem(title, desc, null);
 		list.addItem(t);
 		System.out.println("아이템이 추가되었습니다!");
 	}
@@ -70,7 +77,7 @@ public class TodoUtil {
 		for (TodoItem item : l.getList()) {
 			if (item.getTitle().equals(title)) {
 				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description);
+				TodoItem t = new TodoItem(new_title, new_description, null);
 				l.addItem(t);
 				System.out.println("아이템이 수정되었습니다!");
 			}
@@ -79,6 +86,7 @@ public class TodoUtil {
 	}
 
 	public static void listAll(TodoList l) {
+		
 		System.out.println("<전체 목록>");
 		for (TodoItem item : l.getList()) {
 			System.out.println(item.toString());
@@ -86,10 +94,56 @@ public class TodoUtil {
 	}
 	
 	public static void saveList(TodoList l, String filename) {
+		int count = 0;
+		
+		try {
+			Writer w = new FileWriter(filename);
+			for (TodoItem item : l.getList()) {
+				w.write(item.toSaveString());
+				count++;
+			}
+			w.close();
+			System.out.println(count + "개의 아이템이 \"todolist.txt\" 파일에 저장되었습니다.");
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
 	public static void loadList(TodoList l, String filename) {
+		int count = 0;
+		
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			
+			String line;
+			while((line = br.readLine()) != null) {
+				StringTokenizer st = new StringTokenizer(line, "##");
+				String title = st.nextToken();
+				String description = st.nextToken();
+				String date = st.nextToken();
+				count++;
+				
+				TodoItem t = new TodoItem(title, description, date);
+				l.addItem(t);
+				
+			}
+			if(count==0) System.out.println("\"todolist.txt\" 파일에 아이템이 존재하지 않습니다.");
+			else System.out.println("\"todolist.txt\" 파일에서 " + count + "개의 아이템을 읽어왔습니다.\n");
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			System.out.println("\"todolist.txt\" 파일이 없습니다.");
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 }
