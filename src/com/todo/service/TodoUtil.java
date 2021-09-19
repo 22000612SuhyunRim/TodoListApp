@@ -84,4 +84,12 @@ public class TodoUtil {
 			System.out.println(item.toString());
 		}
 	}
+	
+	public static void saveList(TodoList l, String filename) {
+		
+	}
+	
+	public static void loadList(TodoList l, String filename) {
+		
+	}
 }
