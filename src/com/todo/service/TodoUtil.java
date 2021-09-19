@@ -82,7 +82,6 @@ public class TodoUtil {
 				System.out.println("아이템이 수정되었습니다!");
 			}
 		}
-
 	}
 
 	public static void listAll(TodoList l) {
@@ -109,7 +108,6 @@ public class TodoUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public static void loadList(TodoList l, String filename) {
@@ -130,6 +128,7 @@ public class TodoUtil {
 				l.addItem(t);
 				
 			}
+			br.close();
 			if(count==0) System.out.println("\"todolist.txt\" 파일에 아이템이 존재하지 않습니다.");
 			else System.out.println("\"todolist.txt\" 파일에서 " + count + "개의 아이템을 읽어왔습니다.\n");
 			
@@ -144,6 +143,5 @@ public class TodoUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 }
