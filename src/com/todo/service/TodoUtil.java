@@ -21,7 +21,8 @@ public class TodoUtil {
 		}
 		
 		System.out.println("설명을 입력하세요. > ");
-		desc = sc.next();
+		sc.nextLine();
+		desc = sc.nextLine();
 		
 		TodoItem t = new TodoItem(title, desc);
 		list.addItem(t);
@@ -64,7 +65,8 @@ public class TodoUtil {
 		}
 		
 		System.out.println("새로운 설명을 입력하세요. > ");
-		String new_description = sc.next().trim();
+		sc.nextLine();
+		String new_description = sc.nextLine().trim();
 		for (TodoItem item : l.getList()) {
 			if (item.getTitle().equals(title)) {
 				l.deleteItem(item);
