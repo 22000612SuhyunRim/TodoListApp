@@ -71,8 +71,7 @@ public class TodoMain {
 				break;
 				
 			case "ls_date_desc":
-				l.sortByDate();
-				l.reverseList();
+				l.sortByDateDesc();
 				isList = true;
 				break;
 				

@@ -3,6 +3,7 @@ package com.todo.dao;
 import java.util.*;
 
 import com.todo.service.TodoSortByDate;
+import com.todo.service.TodoSortByDateDesc;
 import com.todo.service.TodoSortByName;
 
 public class TodoList {
@@ -36,9 +37,9 @@ public class TodoList {
 	}
 
 	public void listAll() {
-		System.out.println("\n[정렬된 전체 목록]");
+		System.out.println("\n[정렬된 전체 목록, 총" + list.size() + "개]");
 		for (TodoItem myitem : list) {
-			System.out.println(myitem.toString());
+			System.out.println((list.indexOf(myitem)+1) + ". " + myitem.toString());
 		}
 	}
 	
@@ -48,6 +49,10 @@ public class TodoList {
 
 	public void sortByDate() {
 		Collections.sort(list, new TodoSortByDate());
+	}
+	
+	public void sortByDateDesc() {
+		Collections.sort(list, new TodoSortByDateDesc());
 	}
 
 	public int indexOf(TodoItem t) {

@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
@@ -113,7 +115,17 @@ public class TodoUtil {
 	}
 	
 	public static void listCateAll(TodoList l) {
+		HashSet<String> categorySet = new HashSet<String>();
 		
+		for(TodoItem item : l.getList()) {
+			categorySet.add(item.getCategory());
+		}
+		
+		Iterator iter = categorySet.iterator();
+		while(iter.hasNext()) {
+			System.out.print(iter.next());
+			if(iter.hasNext()) System.out.print(" / ");
+		}
 	}
 	
 	public static void find(TodoList l, String keyword) {
@@ -129,7 +141,15 @@ public class TodoUtil {
 	}
 	
 	public static void findCate(TodoList l, String keyword) {
+		int count = 0;
 		
+		for(TodoItem item : l.getList()) {
+			if(item.getCategory().contains(keyword)) {
+				System.out.println((l.getList().indexOf(item)+1) + ". " + item.toString());
+				count++;
+			}
+		}
+		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
 	}
 	
 	public static void saveList(TodoList l, String filename) {
