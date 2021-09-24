@@ -16,22 +16,28 @@ public class TodoUtil {
 	
 	public static void createItem(TodoList list) {
 		
-		String title, desc;
+		String category, title, desc, due_date;
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n리스트에 추가시킬 아이템의 제목을 입력하세요. > ");
-		
+		System.out.print("\n리스트에 추가시킬 아이템의 제목을 입력하세요. > ");
 		title = sc.next();
+		
 		if (list.isDuplicate(title)) {
 			System.out.printf("이미 추가된 아이템과 동일한 제목을 사용할 수 없습니다.");
 			return;
 		}
 		
-		System.out.println("설명을 입력하세요. > ");
+		System.out.print("아이템의 카테고리를 입력하세요. > ");
+		category = sc.next();
+		
+		System.out.print("설명을 입력하세요. > ");
 		sc.nextLine();
 		desc = sc.nextLine();
 		
-		TodoItem t = new TodoItem(title, desc, null);
+		System.out.print("마감일자를 입력하세요. > ");
+		due_date = sc.next();
+		
+		TodoItem t = new TodoItem(title, desc, null, category, due_date);
 		list.addItem(t);
 		System.out.println("아이템이 추가되었습니다!");
 	}
@@ -40,56 +46,90 @@ public class TodoUtil {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n리스트에서 삭제할 아이템의 제목을 입력하세요. > ");
-		String title = sc.next();
+		System.out.print("\n리스트에서 삭제할 아이템의 번호를 입력하세요. > ");
+		int index = sc.nextInt()-1;
 		
 		for (TodoItem item : l.getList()) {
-			if (title.equals(item.getTitle())) {
-				l.deleteItem(item);
-				System.out.println("아이템이 삭제되었습니다!");
-				break;
+			if (l.getList().indexOf(item)==index) {
+				System.out.println((index+1) + ". " + item.toString());
+				System.out.print("위 아이템을 삭제하시겠습니까? (y/n) > ");
+				String select = sc.next();
+				if(select.contains("y")) {
+					l.deleteItem(item);
+					System.out.println("아이템이 삭제되었습니다!");
+					break;
+				}
+				else {
+					System.out.println("아이템이 삭제되지 않았습니다.");
+					break;
+				}
 			}
 		}
 	}
-
 
 	public static void updateItem(TodoList l) {
 		
 		Scanner sc = new Scanner(System.in);
 		
-		System.out.println("\n리스트에서 수정하고 싶은 아이템의 제목을 입력하세요. > ");
-		String title = sc.next().trim();
-		if (!l.isDuplicate(title)) {
-			System.out.println("방금 입력하신 제목의 아이템은 존재하지 않습니다.");
+		System.out.print("\n리스트에서 수정하고 싶은 아이템의 번호를 입력하세요. > ");
+		int index = sc.nextInt()-1;
+		if (index>l.getList().size() || index<0) {
+			System.out.println("방금 입력하신 번호는 존재하지 않습니다.");
 			return;
 		}
-
-		System.out.println("새로운 제목을 입력하세요. > ");
+		
+		System.out.println((index+1) + ". " + l.getList().get(index).toString());
+		
+		System.out.print("새로운 제목을 입력하세요. > ");
 		String new_title = sc.next().trim();
 		if (l.isDuplicate(new_title)) {
 			System.out.println("같은 제목으로 바꿀 수 없습니다.");
 			return;
 		}
 		
-		System.out.println("새로운 설명을 입력하세요. > ");
+		System.out.print("새로운 카테고리를 입력하세요. > ");
+		String category = sc.next().trim();
+		
+		System.out.print("새로운 설명을 입력하세요. > ");
 		sc.nextLine();
 		String new_description = sc.nextLine().trim();
-		for (TodoItem item : l.getList()) {
-			if (item.getTitle().equals(title)) {
-				l.deleteItem(item);
-				TodoItem t = new TodoItem(new_title, new_description, null);
-				l.addItem(t);
-				System.out.println("아이템이 수정되었습니다!");
-			}
-		}
+		
+		System.out.print("새로운 마감일자를 입력하세요. > ");
+		String due_date = sc.next().trim();
+		
+		
+		l.deleteItem(l.getList().get(index));
+		TodoItem t = new TodoItem(new_title, new_description, null, category, due_date);
+		l.addItem(t);
+		System.out.println("아이템이 수정되었습니다!");
 	}
 
 	public static void listAll(TodoList l) {
 		
-		System.out.println("<전체 목록>");
+		System.out.println("[전체 목록, 총 " + l.getList().size() + "개]");
 		for (TodoItem item : l.getList()) {
-			System.out.println(item.toString());
+			System.out.println((l.getList().indexOf(item)+1) + ". " + item.toString());
 		}
+	}
+	
+	public static void listCateAll(TodoList l) {
+		
+	}
+	
+	public static void find(TodoList l, String keyword) {
+		int count = 0;
+		
+		for(TodoItem item : l.getList()) {
+			if(item.getTitle().contains(keyword) || item.getDesc().contains(keyword)) {
+				System.out.println((l.getList().indexOf(item)+1) + ". " + item.toString());
+				count++;
+			}
+		}
+		System.out.println("총 " + count + "개의 항목을 찾았습니다.");
+	}
+	
+	public static void findCate(TodoList l, String keyword) {
+		
 	}
 	
 	public static void saveList(TodoList l, String filename) {
@@ -119,12 +159,14 @@ public class TodoUtil {
 			String line;
 			while((line = br.readLine()) != null) {
 				StringTokenizer st = new StringTokenizer(line, "##");
+				String category = st.nextToken();
 				String title = st.nextToken();
 				String description = st.nextToken();
+				String due_date = st.nextToken();
 				String date = st.nextToken();
 				count++;
 				
-				TodoItem t = new TodoItem(title, description, date);
+				TodoItem t = new TodoItem(title, description, date, category, due_date);
 				l.addItem(t);
 				
 			}

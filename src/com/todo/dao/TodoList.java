@@ -36,7 +36,7 @@ public class TodoList {
 	}
 
 	public void listAll() {
-		System.out.println("\n<정렬된 전체 목록>");
+		System.out.println("\n[정렬된 전체 목록]");
 		for (TodoItem myitem : list) {
 			System.out.println(myitem.toString());
 		}

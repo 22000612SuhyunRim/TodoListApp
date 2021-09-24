@@ -15,6 +15,8 @@ public class TodoMain {
 		boolean isList = false;
 		boolean quit = false;
 		TodoUtil.loadList(l, "todolist.txt");
+		String keyword;
+		
 		Menu.displaymenu();
 		do {
 			Menu.prompt();
@@ -37,8 +39,22 @@ public class TodoMain {
 			case "ls":
 				TodoUtil.listAll(l);
 				break;
+				
+			case "ls_cate":
+				TodoUtil.listCateAll(l);
+				break;
+				
+			case "find":
+				keyword = sc.next();
+				TodoUtil.find(l, keyword);
+				break;
+				
+			case "find_cate":
+				keyword = sc.next();
+				TodoUtil.findCate(l, keyword);
+				break;
 
-			case "ls_name_asc":
+			case "ls_name":
 				l.sortByName();
 				isList = true;
 				break;
@@ -51,6 +67,12 @@ public class TodoMain {
 				
 			case "ls_date":
 				l.sortByDate();
+				isList = true;
+				break;
+				
+			case "ls_date_desc":
+				l.sortByDate();
+				l.reverseList();
 				isList = true;
 				break;
 				
