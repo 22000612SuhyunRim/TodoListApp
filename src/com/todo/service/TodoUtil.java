@@ -115,6 +115,7 @@ public class TodoUtil {
 	}
 	
 	public static void listCateAll(TodoList l) {
+		int count = 0;
 		HashSet<String> categorySet = new HashSet<String>();
 		
 		for(TodoItem item : l.getList()) {
@@ -124,8 +125,10 @@ public class TodoUtil {
 		Iterator iter = categorySet.iterator();
 		while(iter.hasNext()) {
 			System.out.print(iter.next());
+			count++;
 			if(iter.hasNext()) System.out.print(" / ");
 		}
+		System.out.println("\n총 " + count + "개의 카테고리가 등록되어 있습니다.");
 	}
 	
 	public static void find(TodoList l, String keyword) {
